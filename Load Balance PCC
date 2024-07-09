@@ -1,1 +1,37 @@
+Pasang ip address terlebih dahulu di interface untuk ISP 1 dan ISP 2
+Contohnya
+192.168.100.2/24 interface ether1 (ISP1)
+192.168.200.2/24 interface ether2 (ISP2)
 
+Koneksikan ISP 1 dan 2 di NAT agar bisa koneksi akses internet
+ip > firewall > NAT
+chain =srcnat out interface=ether1 action=masquerade
+chain =srcnat out interface=ether2 action=masquerade
+
+Koneksi kan routing
+ip > routes
+gateway=192.168.100.1 check gateway=ping distance=1  (prioritas ISP1)
+gateway=192.168.200.1 check gateway=ping distance=2  (Link 2 ISP2)
+
+Tambahkan ip addresslist untuk ip lokal dam ip isp
+ip > firewall > addresslist 
+name=client+ISP address=192.168.100.0/24
+name=client+ISP address=192.168.200.0/24
+name=client+ISP address=(ip lokal)
+
+Setting LB PCC 
+ip > firewall > Mangle
+1. chain=prerouting dst.addresslist=client+ISP action=accept
+2. chain=input in.interface=ether1 action=mark connection new connection mark=koneksi-isp1 passthrough=yes
+3. chain=input in.interface=ether2 action=mark connection new connection mark=koneksi-isp2 passthrough=yes
+4. chain=output connection mark=koneksi-isp1 action=mark routing new routing mark=route-isp1 passthrough=no
+5. chain=output connection mark=koneksi-isp2 action=mark routing new routing mark=route-isp2 passthrough=no
+6. chain=prerouting src.addresslist=client+ISP dst.address.list=client+ISP(!) per connection clashifier=both addresses and ports : 2 / 0 (karena ada 2 isp / 0 untuk isp yang pertama) dst.address type=local invert=yes action=mark connection new connection mark=koneksi-isp1 passthrough=yes
+7. chain=prerouting src.addresslist=client+ISP dst.address.list=client+ISP(!) per connection clashifier=both addresses and ports : 2 / 1 (karena ada 2 isp / 1 untuk isp yang kedua) dst.address type=local invert=yes action=mark connection new connection mark=koneksi-isp2 passthrough=yes
+8. chain=prerouting connection mark=koneksi-isp1 src.addresslist=client+ISP dst.address.list=client+ISP(!) action=mark routing new routing mark=route-isp1 passthrough=yes
+9. chain=prerouting connection mark=koneksi-isp2 src.addresslist=client+ISP dst.address.list=client+ISP(!) action=mark routing new routing mark=route-isp2 passthrough=yes
+
+Routing Load Balance
+ip > routes
+gateway=192.168.100.1 check gateway=ping distance=1 routing mark=route-isp1  comment=KE ISP1
+gateway=192.168.200.1 check gateway=ping distance=1 routing mark=route-isp2  comment=KE ISP2
