@@ -1,0 +1,21 @@
+Layer 7 Protocols (blokir browser) : 
+
+^.+(ytstatic.l.google.com|youtube-ui.l.google.com|youtubei.googleapis.com|youtube.googleapis.com|youtube.com|www.youtube.com|m.youtube.com|ytimg.com|s.ytimg.com|ytimg.l.google.com|youtube.l.google.com|i.google.com|googlevideo.com|youtu.be|youtube-nocookie.com).*$
+
+Address List (blokir aplikasi) :
+
+youtu.be
+youtube.com
+m.youtube.com
+www.youtube.com
+ytimg.com
+s.ytimg.com
+googlevideo.com
+i.google.com
+ytstatic.l.google.com
+youtube-ui.l.google.com
+ytimg.l.google.com
+youtube.l.google.com
+youtubei.googleapis.com
+youtube.googleapis.com
+youtube-nocookie.com
