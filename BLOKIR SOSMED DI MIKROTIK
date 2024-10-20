@@ -36,12 +36,23 @@ add action=add-dst-to-address-list address-list=Facebook address-list-timeout=4w
 
                             === BLOKIR YOUTUBE ===
 /ip firewall filter 
-add action=drop chain=forward dst-address-list=TikTok src-address=192.168.17.0/24 comment="Blocking Youtube Di Router Mikrotik"
+add action=drop chain=forward dst-address-list=Yotuube src-address=192.168.17.0/24 comment="Blocking Youtube Di Router Mikrotik"
 
-/ip firewall mangle 
-add action=add-dst-to-address-list address-list=TikTok address-list-timeout=4w2d chain=prerouting content=.yotube.com src-address=192.168.17.0/24 comment="Detecting IP Address Youtube" 
-add action=add-dst-to-address-list address-list=TikTok address-list-timeout=4w2d chain=prerouting content=.ytimg.com src-address=192.168.17.0/24 
-add action=add-dst-to-address-list address-list=TikTok address-list-timeout=4w2d chain=prerouting content=.googlevideo.com src-address=192.168.17.0/24 
-add action=add-dst-to-address-list address-list=TikTok address-list-timeout=4w2d chain=prerouting content=.youtu.be src-address=192.168.17.0/24 
-add action=add-dst-to-address-list address-list=TikTok address-list-timeout=4w2d chain=prerouting content=.yt3.ggpht.com src-address=192.168.17.0/24 
-add action=add-dst-to-address-list address-list=TikTok address-list-timeout=4w2d chain=prerouting content=.youtubei.googleapis.com src-address=192.168.17.0/24
+tambahkan address lis untuk youtube :
+Address List (blokir aplikasi) :
+
+youtu.be
+youtube.com
+m.youtube.com
+www.youtube.com
+ytimg.com
+s.ytimg.com
+googlevideo.com
+i.google.com
+ytstatic.l.google.com
+youtube-ui.l.google.com
+ytimg.l.google.com
+youtube.l.google.com
+youtubei.googleapis.com
+youtube.googleapis.com
+youtube-nocookie.com
