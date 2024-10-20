@@ -1,0 +1,32 @@
+BLOKIR INSTAGRAM
+/ip firewall filter
+add action=drop chain=forward dst-address-list=Instagram src-address=192.168.17.0/24 comment="Blocking Netflix Menggunakan TLS Hosts"
+/ip firewall mangle
+add action=add-dst-to-address-list address-list=Instagram address-list-timeout=4w2d chain=prerouting content=.instagram.com src-address=192.168.17.0/24 comment="Deteksi Alamat IP Address Instagram"
+add action=add-dst-to-address-list address-list=Instagram address-list-timeout=4w2d chain=prerouting content=.cdninstagram.com src-address=192.168.17.0/24 comment="Deteksi Alamat IP Address Instagram"
+
+
+
+BLOKIR NETFLIX :
+/ip firewall filter
+add action=drop chain=forward dst-address-list=Netflix src-address=192.168.17.0/24 comment="Blocking Netflix Menggunakan TLS Hosts"
+/ip firewall mangle
+add action=add-dst-to-address-list address-list=Netflix address-list-timeout=4w2d chain=prerouting content=nflxvideo.net src-address=192.168.17.0/24 comment="Deteksi Alamat IP Address Netflix"
+
+BLOKIR TIKTOK
+/ip firewall filter
+add action=drop chain=forward dst-address-list=TikTok src-address=192.168.17.0/24 comment="Blocking TikTok Di Router Mikrotik"
+/ip firewall mangle
+add action=add-dst-to-address-list address-list=TikTok address-list-timeout=4w2d chain=prerouting content=.tiktok.com src-address=192.168.17.0/24 comment="Blokir TikTok Menggunakan Mikrotik"
+add action=add-dst-to-address-list address-list=TikTok address-list-timeout=4w2d chain=prerouting content=.tiktokv.com src-address=192.168.17.0/24
+add action=add-dst-to-address-list address-list=TikTok address-list-timeout=4w2d chain=prerouting content=.tiktokcdn.com src-address=192.168.17.0/24
+add action=add-dst-to-address-list address-list=TikTok address-list-timeout=4w2d chain=prerouting content=.byteoversea.com src-address=192.168.17.0/24
+add action=add-dst-to-address-list address-list=TikTok address-list-timeout=4w2d chain=prerouting content=.ibyteimg.com src-address=192.168.17.0/24
+add action=add-dst-to-address-list address-list=TikTok address-list-timeout=4w2d chain=prerouting content=.ibytedtos.com src-address=192.168.17.0/24
+add action=add-dst-to-address-list address-list=TikTok address-list-timeout=4w2d chain=prerouting content=.myqcloud.com src-address=192.168.17.0/24
+
+/ip firewall filter
+add action=drop chain=forward dst-address-list=Facebook src-address=192.168.17.0/24 comment="Blokir Facebook Menggunakan TLS Host"
+
+/ip firewall mangle
+add action=add-dst-to-address-list address-list=Facebook address-list-timeout=4w2d chain=prerouting dst-port=443 protocol=tcp tls-host=*.facebook.com comment="Detecting IP Addresses Facebook"
